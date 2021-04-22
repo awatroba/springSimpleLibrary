@@ -11,12 +11,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-/*
- metoda protected void configure(HttpSecurity http) powinna ustalać autoryzacje requestów
- np. .antMatchers(HttpMethod.GET, "/dashboard").hasRole("USER").
- Oprócz tego powinna mieć ustawione: .and().httpBasic() .and().cors().disable() .csrf().disable();
-
-* */
 //By adding @EnableWebSecurity, we get Spring Security and MVC integration support
 @Configuration
 @EnableWebSecurity

@@ -10,14 +10,6 @@ import pk.ztp.springlibrary.beans.Book;
 
 import java.util.List;
 
-/**
- * DashboardController - kontroler, w którym znajdują się metody obsługujące wszystkie żądania o zasoby książek. Adresy URI powinny wyglądać
- * następująco:
- * – GET /dashboard - pobranie listy wszystkich książek,
- * – GET /dashboard/id - pobranie książki o podanym id (proszę skorzystać z adnotacji @PathVariable),
- * – POST /dashboard - dodanie nowej książki, w odpowiedzi zaktualizowana lista książek (proszę skorzystać z adnotacji @RequestBody),
- * – DELETE /dashboard/id - usunięcie książki o podanym id, w odpowiedzi usunięta książka.
- */
 @RestController
 public class DashboardController {
     private DashboardService dashboardService;

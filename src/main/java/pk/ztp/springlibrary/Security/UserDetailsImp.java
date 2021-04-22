@@ -8,10 +8,6 @@ import pk.ztp.springlibrary.beans.User;
 
 import java.util.Arrays;
 import java.util.Collection;
-/*
-* Klasa implementująca interfejs UserDetails. Jest to swego rodzaju wrapper na obiekt użytkownika znajdujący
-* się w aplikacji. Interfejs ten wykorzystywany jest przez Spring Security do pobrania informacji o użytkowniku takich
-jak login, hasło, czy jego role*/
 
 public class UserDetailsImp implements UserDetails {
     private User user;
