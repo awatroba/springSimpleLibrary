@@ -8,10 +8,6 @@ import pk.ztp.springlibrary.beans.Book;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * DashboardService - serwis, który zarządza książkami biblioteki. W konstruktorze powinien tworzyć listę dostępnych
- * książek oraz udostępniać metody pozwalające na pobranie i modyfikacje książek
- */
 @Service
 public class DashboardService {
     private List<Book> books;
