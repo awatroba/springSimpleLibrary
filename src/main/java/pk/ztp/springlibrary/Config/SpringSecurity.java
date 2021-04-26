@@ -1,4 +1,4 @@
-package pk.ztp.springlibrary.Security;
+package pk.ztp.springlibrary.Config;
 
 
 import org.springframework.context.annotation.Bean;
@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import pk.ztp.springlibrary.Security.UserDetailsServiceImp;
 
 //By adding @EnableWebSecurity, we get Spring Security and MVC integration support
 @Configuration
