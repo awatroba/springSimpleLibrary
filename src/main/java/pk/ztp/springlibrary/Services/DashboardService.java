@@ -43,16 +43,16 @@ public class DashboardService {
         return book;
     }
 
-    public List<Book> addBook(Book newBookRequest) throws BookExistException {
+    public Book addBook(Book newBookRequest) throws BookExistException {
         for(Book b : books){
             if(b.getAuthor().equals(newBookRequest.getAuthor())
-                    || b.getTitle().equals(newBookRequest.getTitle())
-                    || b.getYear()==newBookRequest.getYear()){
+                    && b.getTitle().equals(newBookRequest.getTitle())
+                    && b.getYear()==newBookRequest.getYear()){
                 throw new BookExistException(newBookRequest);
             }
         }
         books.add(newBookRequest);
-        return books;
+        return newBookRequest;
     }
 
     public List<Book> getBooks() {
