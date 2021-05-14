@@ -30,7 +30,7 @@
                     ajaxGetAllBooks();
                 },
                 error: function (error) {
-                    $("#postResultDiv").html("<strong>DELETE Error</strong>");
+                    $("#postResultDiv").html("<strong>DELETE Error - function only for ADMIN</strong>");
                 }
 
             });
@@ -55,17 +55,17 @@
                 dataType: 'json',
                 success: function (result) {
                     if (result.status == "success") {
+                        var book=result.data
                         $("#postResultDiv").html(
-                            "" + result.data
-                            + "Post Successfully! <br></p>");
+                            "New Book: { " + book.id+","+ book.author+","+book.title+","+book.year+ "} <br></p>");
                     } else {
-                        $("#postResultDiv").html("<strong>Errorrrr</strong>");
+                        $("#postResultDiv").html("<strong>"+result.status+"</strong>");
                     }
                     console.log(result);
                     ajaxGetAllBooks();
                 },
                 error: function (e) {
-                    $("#postResultDiv").html("<strong>Error</strong>");
+                    $("#postResultDiv").html("<strong>Error - function only for ADMIN</strong>");
                     console.log("ERROR: ", e);
                 }
             });
