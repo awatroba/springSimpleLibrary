@@ -50,7 +50,7 @@
             $.ajax({
                 type: "POST",
                 contentType: "application/json",
-                url: "dashboard",
+                url: "saveBook",
                 data: JSON.stringify(formData),
                 dataType: 'json',
                 success: function (result) {
@@ -74,7 +74,7 @@
         function ajaxGetAllBooks() {
             $.ajax({
                 type: "GET",
-                url: "dashboard",
+                url: "getBooks",
                 success: function (result) {
                     if (result.status == "success") {
                         $('#getResultDiv ul').empty();
@@ -126,6 +126,7 @@
 
             });
         }
+
         $(document).ready(
             function () {
                 // GET ALL BOOKS REQUEST
@@ -150,6 +151,11 @@
     <title>Dashboard</title>
 </head>
 <body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="collapse navbar-collapse" id="myNavbar">
+        <a href="/logout" class="btn btn-outline-secondary">Log out</a>
+    </div>
+</nav>
 <h1 style="text-align: center">Dashboard</h1>
 <div class="container">
     <div class="row">
