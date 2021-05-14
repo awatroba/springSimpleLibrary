@@ -117,7 +117,7 @@
                         $("#searchBookResultDiv").html(
                             "Search Book: "+ book.id+" "+ book.author+" "+book.title+" "+book.year+ " <br></p>");
                     } else {
-                        $("#searchBookResultDiv").html("<strong>Error</strong>");
+                        $("#searchBookResultDiv").html("<strong>"+result.status+"</strong>");
                     }
                 },
                 error: function (error) {
