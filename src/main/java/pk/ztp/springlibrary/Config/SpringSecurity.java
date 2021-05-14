@@ -42,5 +42,6 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf().disable() // for postman
                 .cors().disable();
+        http.formLogin().defaultSuccessUrl("/dashboard",true);
     }
 }
