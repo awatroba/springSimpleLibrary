@@ -3,6 +3,8 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <!-- Add icon library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet"
           href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"/>
     <script
@@ -12,109 +14,142 @@
     <script
             src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
     <script type="text/javascript">
-        GET: $(document).ready(
-            function () {
-                // GET REQUEST
-                $("#getALlBooks").click(function (event) {
-                    event.preventDefault();
-                    ajaxGet();
-                });
+        function deleteBook(id) {
+            $.ajax({
+                url:"dashboard/"+id,
+                method:"DELETE",
+                cache: false,
+                success: function (result) {
+                    if (result.status == "success") {
+                        var book=result.data
+                        $("#postResultDiv").html(
+                            "DELETE " + book.id+" "+ book.author+" "+book.title+" "+book.year+ " <br></p>");
+                    } else {
+                        $("#postResultDiv").html("<strong>Error</strong>");
+                    }
+                    ajaxGetAllBooks();
+                },
+                error: function (error) {
+                    $("#postResultDiv").html("<strong>DELETE Error</strong>");
+                }
 
-                // SUBMIT FORM
+            });
+        }
+        //for tests
+        function getclick() {
+            alert("Hello! I am an alert box!!");
+        }
+        // DO POST
+        function ajaxPost() {
+            // PREPARE FORM DATA
+            var formData = {
+                year: $("#year").val(),
+                title: $("#title").val(),
+                author: $("#author").val()
+            }
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url: "dashboard",
+                data: JSON.stringify(formData),
+                dataType: 'json',
+                success: function (result) {
+                    if (result.status == "success") {
+                        $("#postResultDiv").html(
+                            "" + result.data
+                            + "Post Successfully! <br></p>");
+                    } else {
+                        $("#postResultDiv").html("<strong>Errorrrr</strong>");
+                    }
+                    console.log(result);
+                    ajaxGetAllBooks();
+                },
+                error: function (e) {
+                    $("#postResultDiv").html("<strong>Error</strong>");
+                    console.log("ERROR: ", e);
+                }
+            });
+        }
+        // DO GET all books
+        function ajaxGetAllBooks() {
+            $.ajax({
+                type: "GET",
+                url: "dashboard",
+                success: function (result) {
+                    if (result.status == "success") {
+                        $('#getResultDiv ul').empty();
+                        var tableBody = $('#tbody');
+                        tableBody.empty();
+                        $(result.data).each(function (index, element) {
+                            tableBody.append('<tr>' +
+                                '<td>'+element.id+'</td>' +
+                                '<td>'+element.title+'</td>' +
+                                '<td>'+element.author+'</td>' +
+                                '<td>'+element.year+'</td>' +
+                                '<td>' +
+                                    '<button class=\"btn btn-danger remove\"onclick = "deleteBook('+element.id+')">' +
+                                    '<i class=\"fa fa-trash\"></i>' +
+                                    '</button>' +
+                                '</td></tr>');
+                        });
+                        console.log("Success: ", result);
+                    } else {
+                        $("#getResultDiv").html("<strong>Error</strong>");
+                        console.log("Fail: ", result);
+                    }
+                },
+                error: function (e) {
+                    $("#getResultDiv").html("<strong>Error</strong>");
+                    console.log("ERROR: ", e);
+                }
+            });
+        }
+
+        function getBookById() {
+            var bookId = $("#idSearchBook").val();
+            $.ajax({
+                url:"dashboard/"+bookId,
+                method:"GET",
+                cache: false,
+                success: function (result) {
+                    if (result.status == "success") {
+                        var book=result.data
+                        $("#searchBookResultDiv").html(
+                            "Search Book: "+ book.id+" "+ book.author+" "+book.title+" "+book.year+ " <br></p>");
+                    } else {
+                        $("#searchBookResultDiv").html("<strong>Error</strong>");
+                    }
+                },
+                error: function (error) {
+                    $("#searchBookResultDiv").html("<strong>SEARCH Error</strong>");
+                }
+
+            });
+        }
+        $(document).ready(
+            function () {
+                // GET ALL BOOKS REQUEST
+                    ajaxGetAllBooks();
+
+                // ADD BOOK SUBMIT FORM
                 $("#bookForm").submit(function (event) {
                     // Prevent the form from submitting via the browser.
                     event.preventDefault();
                     ajaxPost();
                 });
+                // GET BOOK BY ID
+                $("#searchBook").submit(function (event) {
+                    // Prevent the form from submitting via the browser.
+                    event.preventDefault();
+                    getBookById();
+                });
 
-                //for tests
-                function getclick() {
-                    alert("Hello! I am an alert box!!");
-                }
 
-                // DO GET
-                function ajaxGet() {
-                    $.ajax({
-                        type: "GET",
-                        url: "getBooks",
-                        success: function (result) {
-                            if (result.status == "success") {
-                                $('#getResultDiv ul').empty();
-                                $.each(result.data,
-                                    function (i, book) {
-
-                                        var forTable = "<tr> <th scope=\"row\">" + book.id + " </th>" +
-                                            "<td>" + book.title + "</td> " +
-                                            "<td>" + book.author + "  </td>" +
-                                            "<td>" + book.year + "</td> </tr>"
-                                        $('#tbody').append(forTable)
-                                    });
-                                console.log("Success: ", result);
-                            } else {
-                                $("#getResultDiv").html("<strong>Error</strong>");
-                                console.log("Fail: ", result);
-                            }
-                        },
-                        error: function (e) {
-                            $("#getResultDiv").html("<strong>Error</strong>");
-                            console.log("ERROR: ", e);
-                        }
-                    });
-                }
-
-                // DO POST
-                function ajaxPost() {
-
-                    // PREPARE FORM DATA
-                    var formData = {
-                        year: $("#year").val(),
-                        title: $("#title").val(),
-                        author: $("#author").val()
-                    }
-
-                    $.ajax({
-                        type: "POST",
-                        contentType: "application/json",
-                        url: "saveBook",
-                        data: JSON.stringify(formData),
-                        dataType: 'json',
-                        success: function (result) {
-                            if (result.status == "success") {
-                                $("#postResultDiv").html(
-                                    "" + result.data.title
-                                    + "Post Successfully! <br>"
-                                    + "---> Congrats !!" + "</p>");
-                            } else {
-                                $("#postResultDiv").html("<strong>Error</strong>");
-                            }
-                            console.log(result);
-                        },
-                        error: function (e) {
-                            $("#postResultDiv").html("<strong>Error</strong>");
-                            console.log("ERROR: ", e);
-                        }
-                    });
-                }
             });
     </script>
     <title>Dashboard</title>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="collapse navbar-collapse" id="myNavbar">
-        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-            <li class="nav-item active">
-                <a class="nav-link" href="/dashboard" aria-disabled="true">Home</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="addBook">Add book</a>
-            </li>
-        </ul>
-        <a href="#" class="btn btn-outline-secondary  pull-right">Log out</a>
-    </div>
-</nav>
-
-
 <h1 style="text-align: center">Dashboard</h1>
 <div class="container">
     <div class="row">
@@ -128,16 +163,13 @@
                             <th scope="col">Title</th>
                             <th scope="col">Author</th>
                             <th scope="col">Year</th>
+                            <th scope="col"></th>
                         </tr>
                         </thead>
                         <tbody id="tbody">
                         </tbody>
                     </table>
                 </div>
-
-                <button id="getALlBooks" type="button" class="btn btn-primary">Get
-                    All Books
-                </button>
                 <div id="getResultDiv"></div>
             </div>
         </div>
@@ -161,6 +193,22 @@
                     </div>
                 </form>
                 <div id="postResultDiv"></div>
+            </div>
+            <div class="container">
+                <br><br>
+                <div>
+                    Search book by id:
+                </div>
+                <form class="row g-3 needs-validation" action="/dashboard" id="searchBook">
+                    <div class="col-md-4">
+                        <label for="idSearchBook" class="form-label">Book id</label>
+                        <input type="text" name="idSearchBook" class="form-control" id="idSearchBook" value="id" required>
+                    </div>
+                    <div class="col-12">
+                        <button class="btn btn-primary " type="submit">Search</button>
+                    </div>
+                </form>
+                <div id="searchBookResultDiv"></div>
             </div>
         </div>
 
