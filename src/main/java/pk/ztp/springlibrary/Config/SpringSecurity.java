@@ -34,6 +34,7 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.httpBasic().and().authorizeRequests()//  allow logging in with the use of login and password
                 .antMatchers(HttpMethod.GET, "/dashboard").authenticated() // get all books
+                .antMatchers(HttpMethod.GET, "/getBooks").authenticated() // get all books
                 .antMatchers(HttpMethod.GET, "/dashboard/*").authenticated() // get book by id
                 .anyRequest().hasRole("ADMIN")
                 .and()
