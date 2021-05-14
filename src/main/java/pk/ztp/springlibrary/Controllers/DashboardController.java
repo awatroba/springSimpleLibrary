@@ -19,14 +19,14 @@ public class DashboardController {
         this.dashboardService = dashboardService;
     }
 
-    @PostMapping("/dashboard")
+    @PostMapping("/saveBook")
     public ResponseEntity<Object> addBook(@RequestBody Book book) throws BookExistException {
         dashboardService.addBook(book);
         ServiceResponse<Book> response = new ServiceResponse<Book>("success", book);
         return new ResponseEntity<Object>(response, HttpStatus.OK);
     }
 
-    @GetMapping("/dashboard")
+    @GetMapping("/getBooks")
     public ResponseEntity<Object> getAllBooks() {
         ServiceResponse<List<Book>> response =
                 new ServiceResponse<>("success", dashboardService.getBooks());
@@ -47,4 +47,40 @@ public class DashboardController {
                 new ServiceResponse<Book>("success",searchBook );
         return new ResponseEntity<Object>(response, HttpStatus.OK);
     }
+
+   /*
+
+
+    @GetMapping(value = "/dashboard")
+    public ModelAndView getAllBooks() {
+        ModelAndView mav = new ModelAndView("dashboard");
+        mav.addObject("books", dashboardService.getBooks());
+        dashboardService.getBooks();
+        return mav;
+    }
+    @PostMapping(value = "/dashboard"//,
+            //produces = MediaType.APPLICATION_JSON_VALUE,
+           // consumes = MediaType.APPLICATION_JSON_VALUE
+    )
+
+    public Book addBook() throws BookExistException {
+        return  new Book("d","ee",123);
+    }
+ @PostMapping(value = "/dashboard")
+    public ModelAndView addBook(@RequestBody Book book) throws BookExistException {
+        dashboardService.addBook(book);
+        ModelAndView mav = new ModelAndView("dashboard");
+        mav.addObject("books", dashboardService.getBooks());
+        dashboardService.getBooks();
+        return mav;
+    }
+
+    @GetMapping(value = "/dashboard/{id}")
+    public ModelAndView deleteBookById(@PathVariable("id") int bookId) throws BookNotFoundException {
+        dashboardService.deleteBook(bookId);
+        ModelAndView mav = new ModelAndView("dashboard");
+        mav.addObject("books", dashboardService.getBooks());
+        dashboardService.getBooks();
+        return mav;
+    }*/
 }
