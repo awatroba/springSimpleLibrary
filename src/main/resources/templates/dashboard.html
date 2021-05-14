@@ -24,10 +24,10 @@
                         var book=result.data
                         $("#postResultDiv").html(
                             "DELETE " + book.id+" "+ book.author+" "+book.title+" "+book.year+ " <br></p>");
+                        ajaxGetAllBooks();
                     } else {
                         $("#postResultDiv").html("<strong>Error</strong>");
                     }
-                    ajaxGetAllBooks();
                 },
                 error: function (error) {
                     $("#postResultDiv").html("<strong>DELETE Error - function only for ADMIN</strong>");
@@ -58,11 +58,12 @@
                         var book=result.data
                         $("#postResultDiv").html(
                             "New Book: { " + book.id+","+ book.author+","+book.title+","+book.year+ "} <br></p>");
+                        ajaxGetAllBooks();
+
                     } else {
                         $("#postResultDiv").html("<strong>"+result.status+"</strong>");
                     }
                     console.log(result);
-                    ajaxGetAllBooks();
                 },
                 error: function (e) {
                     $("#postResultDiv").html("<strong>Error - function only for ADMIN</strong>");
